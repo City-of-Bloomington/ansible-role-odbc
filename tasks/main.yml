@@ -1,0 +1,28 @@
+---
+- name: "Install odbc packages"
+  apt:
+    name: "{{ packages }}"
+    state: "present"
+  vars:
+    packages:
+      - "unixodbc"
+      - "unixodbc-dev"
+      - "freetds-dev"
+      - "freetds-bin"
+      - "tdsodbc"
+
+- name: 'Configure ODBC drivers'
+  copy:
+    src:  'odbcinst.ini'
+    dest: '/etc/odbcinst.ini'
+
+- name: 'Configure FreeTDS'
+  template:
+    src:  'freetds.conf'
+    dest: '/etc/freetds/freetds.conf'
+
+- name: 'Configure ODBC connections'
+  template:
+    src: 'odbc.ini'
+    dest: '/etc/odbc.ini'
+...
